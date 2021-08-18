@@ -1,5 +1,4 @@
 import firebase from 'firebase/app';
-import "firebase/analytics";
 import "firebase/firestore";
 import "firebase/storage";
 
@@ -19,10 +18,9 @@ try {
         measurementId: process.env.MEASUREMENT_ID
     }
 }
-
+console.log('firebaseConfig', firebaseConfig);
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
-    firebase.analytics();
 }
 const db = firebase.firestore();
 const storage = firebase.storage();
