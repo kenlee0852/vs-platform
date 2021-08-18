@@ -3,10 +3,10 @@
     <div class="column">
       <b-field label="比賽名稱">
         <b-input
-          v-model="name"
+          v-model="contestName"
           required
           validation-message="必填"
-          ref="name"
+          ref="contestName"
         ></b-input>
       </b-field>
     </div>
@@ -31,10 +31,10 @@
           <div class="card-content">
             <b-field label="簡單敘述 (顯示於圖上)">
               <b-input
-                v-model="file.title"
+                v-model="file.candidateName"
                 required
                 validation-message="必填"
-                ref="titles"
+                ref="nameInputs"
               ></b-input>
             </b-field>
           </div>
@@ -54,7 +54,6 @@ import Card from "~/components/Card";
 import uploadService from '~/services/upload';
 import contestService from '~/services/contest';
 
-console.log(uploadService);
 export default {
   name: "NewContest",
 
@@ -64,7 +63,7 @@ export default {
   data() {
     return {
       files: [],
-      name: null,
+      contestName: null,
     };
   },
   methods: {
@@ -75,12 +74,12 @@ export default {
       // if(!this.validation()) return;
       const urls = await uploadService.uploadHandler(this.files);
       const candidates = this.files.map((file, index) => ({
-        title: file.title,
+        name: file.candidateName,
         url: urls[index],
         index,
       }));
       const contest = {
-        name: this.name,
+        name: this.contestName,
         candidates
       };
       try {
@@ -90,6 +89,7 @@ export default {
         return;
       }
       this.$notify('success', '新增成功');
+      this.$router.push({ path: '/' });
     },
     validation() {
       if(this.files.length < 4) {
@@ -101,8 +101,8 @@ export default {
         return false;
       }
       const items = [
-        this.$refs.name.checkHtml5Validity(),
-        ...this.$refs.titles.map((title) => title.checkHtml5Validity()),
+        this.$refs.contestName.checkHtml5Validity(),
+        ...this.$refs.nameInputs.map((input) => input.checkHtml5Validity()),
       ];
       if(!items.every(item => item == true)) {
         this.$notify('error', '請完成必填項目！');

@@ -1,14 +1,14 @@
 <template>
   <section class="section">
-    <div class="columns">
+    <div class="columns is-multiline">
       <card
         class="is-one-quarter"
-        title="Freaasdasdsadsadsadsadsadsadsadae"
-        image="vs.svg"
+        v-for="(contest, index) in contests"
+        :key="index"
+        :contestName="contest.name"
+        :imageSrc="getBackgroundImage(contest)"
+        :contestId="contest.id"
       >
-        Open source on <a href="https://github.com/buefy/buefy">
-          GitHub
-        </a>
       </card>
     </div>
   </section>
@@ -16,14 +16,33 @@
 
 <script>
 import Card from '~/components/Card'
+import contestService from '~/services/contest';
 
 export default {
-  name: 'HomePage',
-
+  name: 'Home',
   components: {
     Card
   },
+  layout() {
+    return 'home'
+  },
+  data() {
+    return {
+      contests: [],
+    }
+  },
   async fetch(){
+    const data = await contestService.getAllContest();
+    this.contests = data.docs.map(doc => ({
+      ...doc.data(),
+      id: doc.id
+    }));
+  },
+  methods: {
+    getBackgroundImage(contest) {
+      const index = Math.floor(Math.random() * contest.candidates.length);
+      return contest.candidates[index].url;
+    }
   }
 }
 </script>

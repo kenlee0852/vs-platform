@@ -2,8 +2,8 @@
   <div>
     <Navbar/>
 
-    <section class="main-content columns">
-      <aside class="column is-2 section">
+    <section class="main-content columns" style="height: 90vh">
+      <aside class="column is-2 section" style="background-color: #f5f5f5;">
         <p class="menu-label is-hidden-touch">
           General
         </p>
@@ -43,11 +43,6 @@ export default {
           title: 'Home',
           icon: 'home',
           to: { name: 'index' }
-        },
-        {
-          title: 'Inspire',
-          icon: 'lightbulb',
-          to: { name: 'inspire' }
         }
       ]
     }
