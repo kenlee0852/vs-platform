@@ -92,7 +92,7 @@ export default {
     let total = 0;
     docs.forEach((doc) => {
       const data = doc.data();
-      if (data.winner) {
+      if (data.winner != null) {
         if (statMap[data.winner] === undefined) {
           statMap[data.winner] = {
             ...this.lookupCandidate(data.winner),

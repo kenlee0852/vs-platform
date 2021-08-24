@@ -59,15 +59,23 @@
     <div class="container mt-4" v-if="isComplete">
       <div class="columns is-mobile">
         <div class="column is-narrow">
-          <p class="card-header-title is-size-3 has-text-primary">
-            {{ winner.name }} 勝利！
-          </p>
+          <div class="columns is-vcentered">
+            <div class="column is-narrow">
+              <p class="card-header-title is-size-3 has-text-primary">
+                {{ winner.name }} 勝利！
+              </p>
+            </div>
+            <div class="column">
+              <b-button class="is-primary" outlined @click="clickRestart">重新開始</b-button>
+            </div>
+          </div>
+
           <div class="card" style="height: 70vh">
             <img :src="winner.url" class="img-container" />
           </div>
         </div>
         <div class="column">
-          <Statistic :contestId="contestData.id"/>
+          <Statistic :contestId="contestData.id" />
         </div>
       </div>
     </div>
@@ -107,7 +115,7 @@ export default {
   name: "ContestDetail",
 
   components: {
-    Statistic
+    Statistic,
   },
   layout() {
     return "contest";
@@ -175,7 +183,9 @@ export default {
     },
     async init() {
       this.modalOpen = false;
-      const candidates = this.contestData.candidates.map(candidate => candidate.index);
+      const candidates = this.contestData.candidates.map(
+        (candidate) => candidate.index
+      );
       this.contest = new Contest(
         candidates,
         this.involveCount,
@@ -197,6 +207,7 @@ export default {
       contest.match = data.matches[data.round];
       contest.result = data.result;
       this.contest = contest;
+      // if already complete
       if (this.contest.isComplete()) {
         this.isComplete = true;
         this.winner = this.lookupCandidate(data.winner);
@@ -234,10 +245,14 @@ export default {
       );
     },
     getTitle() {
-      let levelName = this.contest.level + '強';
+      let levelName = this.contest.level + "強";
       let roundName = `${this.contest.round + 1}/${this.contest.level / 2}`;
-      if (this.contest.level == 2) levelName = '決賽';
+      if (this.contest.level == 2) levelName = "決賽";
       return `${this.contestData.name} ${levelName} (${roundName})`;
+    },
+    clickRestart() {
+      this.$cookies.removeAll();
+      window.location.reload();
     },
   },
   async mounted() {
