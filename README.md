@@ -12,17 +12,27 @@
 ## Demo
 [https://vs-platform-demo.herokuapp.com/](https://vs-platform-demo.herokuapp.com/)
 ## 在本地端執行
+準備`firebase.json`，參考`plugins/firebase.json.example`。
+```json
+{
+    "apiKey": "",
+    "authDomain": "",
+    "databaseURL": "",
+    "projectId": "",
+    "storageBucket": "",
+    "messagingSenderId": "",
+    "appId": "",
+    "measurementId": ""
+}
+```
 ```bash
 # install dependencies
-$ npm install
+npm install
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+# serve for development
+npm run dev
 
 # build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
+npm run build
+npm run start
 ```
